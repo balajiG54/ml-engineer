@@ -2,15 +2,16 @@ import streamlit as st
 import pandas as pd
 from functions import v_card
 import shutil
+import os
 
 
 uploaded_file = st.file_uploader("Choose a file")
 if uploaded_file is not None:
-    # Can be used wherever a "file-like" object is accepted:
-    # dataframe = pd.read_csv(uploaded_file)
-    # st.write(dataframe)
+
     pd.options.display.max_columns = 100
     df = pd.read_csv(uploaded_file)
+    dirname=uploaded_file.name.replace(".csv", "")
+    dirname
 
     columns_to_drop = ["Requested By",
                        "Shipping Address",
@@ -71,6 +72,7 @@ if uploaded_file is not None:
             # both numbers and has a preferred name
             if r["Do you have a preferred name?"] == "Yes":
                 v_card(
+                    dirname=dirname,
                     company=r["GetixHealth or ARstrat "],
                     first_name=r["Preferred First Name"],
                     last_name=r["Preferred Last Name"],
@@ -89,6 +91,7 @@ if uploaded_file is not None:
             # both numbers and has NO preferred name
             else:
                 v_card(
+                    dirname=dirname,
                     company=r["GetixHealth or ARstrat "],
                     first_name=r["First Name"],
                     last_name=r["Last Name"],
@@ -108,6 +111,7 @@ if uploaded_file is not None:
             # Only Mobile number and has a preferred name
             if r["Do you have a preferred name?"] == "Yes":
                 v_card(
+                    dirname=dirname,
                     company=r["GetixHealth or ARstrat "],
                     first_name=r["Preferred First Name"],
                     last_name=r["Preferred Last Name"],
@@ -124,6 +128,7 @@ if uploaded_file is not None:
             else:
                 # Only Mobile numbers and has NO preferred name
                 v_card(
+                    dirname=dirname,
                     company=r["GetixHealth or ARstrat "],
                     first_name=r["First Name"],
                     last_name=r["Last Name"],
@@ -142,6 +147,7 @@ if uploaded_file is not None:
             # Only Office number and has a preferred name
             if r["Do you have a preferred name?"] == "Yes":
                 v_card(
+                    dirname=dirname,
                     company=r["GetixHealth or ARstrat "],
                     first_name=r["Preferred First Name"],
                     last_name=r["Preferred Last Name"],
@@ -159,6 +165,7 @@ if uploaded_file is not None:
             # Only Office number and has No preferred name
             else:
                 v_card(
+                    dirname=dirname,
                     company=r["GetixHealth or ARstrat "],
                     first_name=r["First Name"],
                     last_name=r["Last Name"],
@@ -188,9 +195,10 @@ if uploaded_file is not None:
     for c in df[numbers]:
         df[c] = df[c].str[:3] + '.' + df[c].str[3:6] + '.' + df[c].str[6:]
 
-    df.to_csv("./result/datacsv/data_14_follow_up.csv")
+    os.makedirs(f"./result/{dirname}/{dirname}_datacsv/", exist_ok=True)
+    df.to_csv(f"./result/{dirname}/{dirname}_datacsv/{dirname}_follow_up.csv")
     df
-    shutil.make_archive("test6", 'zip', "./result/")
+    shutil.make_archive(f"{dirname}", 'zip', f"./result/{dirname}")
 
-    with open('test6.zip', 'rb') as f:
-        st.download_button('Download Zip', f, file_name='data.zip')
+    with open(f'{dirname}.zip', 'rb') as f:
+        st.download_button('Download Zip', f, file_name=f'{dirname}.zip')
