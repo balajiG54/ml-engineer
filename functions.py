@@ -1,5 +1,4 @@
 # from PIL import Image
-from pyzbar.pyzbar import decode
 import qrcode
 import qrcode.image.svg
 
