@@ -1,2 +1,2 @@
-pandas
-qrcode
+pandas~=1.4.4
+streamlit~=1.12.2

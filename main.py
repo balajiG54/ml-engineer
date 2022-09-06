@@ -4,44 +4,43 @@ from functions import v_card
 import shutil
 import os
 
-
 uploaded_file = st.file_uploader("Choose a file")
 if uploaded_file is not None:
 
     pd.options.display.max_columns = 100
     df = pd.read_csv(uploaded_file)
-    dirname=uploaded_file.name.replace(".csv", "")
+    dirname = uploaded_file.name.replace(".csv", "")
     dirname
 
     columns_to_drop = ["Requested By",
                        "Shipping Address",
                        "Supervisor",
-                        "Quantity ",
+                       "Quantity ",
                        "Quote Amount",
-                           "Actual Amount",
-                           "PO Number",
-                           "Attachments",
-                           "Supervisor Sign-off status",
-                           "Procurement Status on PO Number",
-                           "Shipping Address: Country/Region",
-                           "Shipping Address: State",
-                           "Shipping Address: City",
-                           "Shipping Address: Postal Code",
-                           "Shipping Address: Street",
-                           "Shipping Address: Coordinates",
-                           "Shipping Address: Name",
-                           "Suite/Apt/P.O. Number",
-                           "Proof to Review",
-                           "Modified",
-                           "Created",
-                           "Modified By",
-                           "Notes to Designer",
-                           "Business Address on Business Card"]
+                       "Actual Amount",
+                       "PO Number",
+                       "Attachments",
+                       "Supervisor Sign-off status",
+                       "Procurement Status on PO Number",
+                       "Shipping Address: Country/Region",
+                       "Shipping Address: State",
+                       "Shipping Address: City",
+                       "Shipping Address: Postal Code",
+                       "Shipping Address: Street",
+                       "Shipping Address: Coordinates",
+                       "Shipping Address: Name",
+                       "Suite/Apt/P.O. Number",
+                       "Proof to Review",
+                       "Modified",
+                       "Created",
+                       "Modified By",
+                       "Notes to Designer",
+                       "Business Address on Business Card"]
     df = df.drop(columns_to_drop, axis=1)
-     # setting all N/A values to 0 to change data type from float to int for both Office and Mobile number
+    # setting all N/A values to 0 to change data type from float to int for both Office and Mobile number
     df["Office Number"] = df["Office Number"].fillna(0).astype(int)
     df["Mobile Number (optional)"] = df["Mobile Number (optional)"].fillna(
-           0).astype(int)
+        0).astype(int)
 
     # splitting full name into first and last name
     for i, r in df.iterrows():
@@ -65,7 +64,8 @@ if uploaded_file is not None:
     # making QR Codes. Setting an if statement depending on preferred name or not.
     for i, r in df.iterrows():
 
-        # print([type(r['Business Address on Business Card: Address 2']), type(r['Business Address on Business Card: City ']), type(r['Business Address on Business Card: State'])])
+        # print([type(r['Business Address on Business Card: Address 2']), type(r['Business Address on Business Card:
+        # City ']), type(r['Business Address on Business Card: State'])])
 
         if r["Office Number"] and r["Mobile Number (optional)"] != 0:
 
@@ -80,13 +80,14 @@ if uploaded_file is not None:
                     email=r["Email"],
                     office_number=r["Office Number"],
                     mobile_number=r["Mobile Number (optional)"],
-                    address=r['Business Address on Business Card: Address'] + ", " + r['Business Address on Business Card: Address 2'] +
-                    " " + r['Business Address on Business Card: City '] + \
-                        " " + r['Business Address on Business Card: State'],
+                    address=r['Business Address on Business Card: Address'] + ", " + r[
+                        'Business Address on Business Card: Address 2'] +
+                            " " + r['Business Address on Business Card: City '] + \
+                            " " + r['Business Address on Business Card: State'],
                     zip_code=r['Business Address on Business Card: ZIP'])
 
                 df.loc[i, "#image"] = path + r["Preferred First Name"] + \
-                    " " + r["Preferred Last Name"] + ".svg"
+                                      " " + r["Preferred Last Name"] + ".svg"
 
             # both numbers and has NO preferred name
             else:
@@ -99,13 +100,14 @@ if uploaded_file is not None:
                     email=r["Email"],
                     office_number=r["Office Number"],
                     mobile_number=r["Mobile Number (optional)"],
-                    address=r['Business Address on Business Card: Address'] + ", " + r['Business Address on Business Card: Address 2'] +
-                    " " + r['Business Address on Business Card: City '] + \
-                        " " + r['Business Address on Business Card: State'],
+                    address=r['Business Address on Business Card: Address'] + ", " + r[
+                        'Business Address on Business Card: Address 2'] +
+                            " " + r['Business Address on Business Card: City '] + \
+                            " " + r['Business Address on Business Card: State'],
                     zip_code=r['Business Address on Business Card: ZIP'])
 
                 df.loc[i, "#image"] = path + r["First Name"] + \
-                    " " + r["Last Name"] + ".svg"
+                                      " " + r["Last Name"] + ".svg"
 
         if r["Office Number"] == 0 and r["Mobile Number (optional)"] != 0:
             # Only Mobile number and has a preferred name
@@ -118,12 +120,13 @@ if uploaded_file is not None:
                     title=r["Title"],
                     email=r["Email"],
                     mobile_number=r["Mobile Number (optional)"],
-                    address=r['Business Address on Business Card: Address'] + ", " + r['Business Address on Business Card: Address 2'] +
-                    " " + r['Business Address on Business Card: City '] + \
-                        " " + r['Business Address on Business Card: State'],
+                    address=r['Business Address on Business Card: Address'] + ", " + r[
+                        'Business Address on Business Card: Address 2'] +
+                            " " + r['Business Address on Business Card: City '] + \
+                            " " + r['Business Address on Business Card: State'],
                     zip_code=r['Business Address on Business Card: ZIP'])
                 df.loc[i, "#image"] = path + r["Preferred First Name"] + \
-                    " " + r["Preferred Last Name"] + ".svg"
+                                      " " + r["Preferred Last Name"] + ".svg"
 
             else:
                 # Only Mobile numbers and has NO preferred name
@@ -135,13 +138,14 @@ if uploaded_file is not None:
                     title=r["Title"],
                     email=r["Email"],
                     mobile_number=r["Mobile Number (optional)"],
-                    address=r['Business Address on Business Card: Address'] + ", " + r['Business Address on Business Card: Address 2'] +
-                    " " + r['Business Address on Business Card: City '] + \
-                        " " + r['Business Address on Business Card: State'],
+                    address=r['Business Address on Business Card: Address'] + ", " + r[
+                        'Business Address on Business Card: Address 2'] +
+                            " " + r['Business Address on Business Card: City '] + \
+                            " " + r['Business Address on Business Card: State'],
                     zip_code=r['Business Address on Business Card: ZIP'])
 
                 df.loc[i, "#image"] = path + r["First Name"] + \
-                    " " + r["Last Name"] + ".svg"
+                                      " " + r["Last Name"] + ".svg"
 
         if r["Office Number"] != 0 and r["Mobile Number (optional)"] == 0:
             # Only Office number and has a preferred name
@@ -154,13 +158,14 @@ if uploaded_file is not None:
                     title=r["Title"],
                     email=r["Email"],
                     office_number=r["Office Number"],
-                    address=r['Business Address on Business Card: Address'] + ", " + r['Business Address on Business Card: Address 2'] +
-                    " " + r['Business Address on Business Card: City '] + \
-                        " " + r['Business Address on Business Card: State'],
+                    address=r['Business Address on Business Card: Address'] + ", " + r[
+                        'Business Address on Business Card: Address 2'] +
+                            " " + r['Business Address on Business Card: City '] + \
+                            " " + r['Business Address on Business Card: State'],
                     zip_code=r['Business Address on Business Card: ZIP'])
 
                 df.loc[i, "#image"] = path + r["Preferred First Name"] + \
-                    " " + r["Preferred Last Name"] + ".svg"
+                                      " " + r["Preferred Last Name"] + ".svg"
 
             # Only Office number and has No preferred name
             else:
@@ -172,21 +177,22 @@ if uploaded_file is not None:
                     title=r["Title"],
                     email=r["Email"],
                     office_number=r["Office Number"],
-                    address=r['Business Address on Business Card: Address'] + ", " + r['Business Address on Business Card: Address 2'] +
-                    " " + r['Business Address on Business Card: City '] + \
-                        " " + r['Business Address on Business Card: State'],
+                    address=r['Business Address on Business Card: Address'] + ", " + r[
+                        'Business Address on Business Card: Address 2'] +
+                            " " + r['Business Address on Business Card: City '] + \
+                            " " + r['Business Address on Business Card: State'],
                     zip_code=r['Business Address on Business Card: ZIP'])
 
                 df.loc[i, "#image"] = path + r["First Name"] + \
-                    " " + r["Last Name"] + ".svg"
+                                      " " + r["Last Name"] + ".svg"
 
     columns_to_rename = {"Business Address on Business Card: Address": "Address",
-                            "Business Address on Business Card: City": "City",
-                            "Business Address on Business Card: State": "State",
-                            "Business Address on Business Card: ZIP": "ZIP",
-                            "Business Address on Business Card: Country": "Country",
-                            "Business Address on Business Card: Address 2": "Address 2",
-                            "#image": "@image"}
+                         "Business Address on Business Card: City": "City",
+                         "Business Address on Business Card: State": "State",
+                         "Business Address on Business Card: ZIP": "ZIP",
+                         "Business Address on Business Card: Country": "Country",
+                         "Business Address on Business Card: Address 2": "Address 2",
+                         "#image": "@image"}
 
     df = df.rename(columns=columns_to_rename)
     numbers = ["Mobile Number (optional)", "Office Number"]
