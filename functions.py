@@ -12,7 +12,7 @@ def make_qr_quote(data, name, dirname):
         border=2)
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(fill_color="green", back_color="white")
+    img = qr.make_image(fill_color=(150,151,54), back_color="white")
     os.makedirs(f"./result/{dirname}/{dirname}/", exist_ok=True)
     img.save(f"./result/{dirname}/{dirname}/{name}.png")
     # return img.get_image()
@@ -23,7 +23,7 @@ def make_qr_svg_quote(data, name, dirname):
     qr.add_data(data)
     qr.make(fit=True)
 
-    img = qr.make_image(fill='#2250b8')
+    img = qr.make_image(fill='#969736')
     os.makedirs(f"./result/{dirname}/{dirname}_qr_images/", exist_ok=True)
     img.save(f"./result/{dirname}/{dirname}_qr_images/{name}.svg")
 
@@ -32,7 +32,7 @@ def make_AR_qr_svg_quote(data, name, dirname):
     qr = qrcode.QRCode(image_factory=qrcode.image.svg.SvgPathImage)
     qr.add_data(data)
     qr.make(fit=True)
-    img = qr.make_image(fill='#2250b8')
+    img = qr.make_image(fill='#969736')
     os.makedirs(f"./result/{dirname}/{dirname}_qr_images/", exist_ok=True)
     img.save(f"./result/{dirname}/{dirname}_qr_images/{name}.svg")
 
