@@ -59,8 +59,7 @@ if uploaded_file is not None:
     df["Preferred First Name"] = df["Preferred First Name"].fillna(
         value="")
 
-    
-    path = st.text_input("Input your Path Here")
+    path = "Users:elisantibanez:Documents:new_businesscards:qr_images:"
 
     # making QR Codes. Setting an if statement depending on preferred name or not.
     for i, r in df.iterrows():
@@ -188,7 +187,7 @@ if uploaded_file is not None:
                                       " " + r["Last Name"] + ".svg"
 
     columns_to_rename = {"Business Address on Business Card: Address": "Address",
-                         "Business Address on Business Card: City ": "City",
+                         "Business Address on Business Card: City": "City",
                          "Business Address on Business Card: State": "State",
                          "Business Address on Business Card: ZIP": "ZIP",
                          "Business Address on Business Card: Country": "Country",
